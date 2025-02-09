@@ -1,10 +1,12 @@
 import generateTable from "../generateTable";
 
-jest.mock("../data", () => [
+const mockData = [
   { id: 26, title: "Побег из Шоушенка", imdb: 9.3, year: 1994 },
   { id: 25, title: "Крёстный отец", imdb: 9.2, year: 1972 },
   { id: 27, title: "Крёстный отец 2", imdb: 9.0, year: 1974 },
-]);
+];
+
+jest.mock("../../data/data.json", () => mockData);
 
 describe("generateTable", () => {
   let tableBody;
@@ -26,13 +28,13 @@ describe("generateTable", () => {
   });
 
   test("Should add movie rows to the table", () => {
-    generateTable();
+    generateTable(mockData);
     const rows = tableBody.querySelectorAll("tr");
     expect(rows.length).toBe(3);
   });
 
   test("Should correctly display movie data", () => {
-    generateTable();
+    generateTable(mockData);
     const rows = tableBody.querySelectorAll("tr");
     const firstRow = rows[0];
     const secondRow = rows[1];

@@ -1,10 +1,12 @@
-import sortTable from "../sortTable"; // Импортируем функцию
+import sortTable from "../sortTable";
 
-jest.mock("../data", () => [
+const mockData = [
   { id: 26, title: "Побег из Шоушенка", imdb: 9.3, year: 1994 },
   { id: 25, title: "Крёстный отец", imdb: 9.2, year: 1972 },
   { id: 27, title: "Крёстный отец 2", imdb: 9.0, year: 1974 },
-]);
+];
+
+jest.mock("../../data/data.json", () => mockData);
 
 describe("sortTable", () => {
   let tableBody;
@@ -45,7 +47,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'id' in ascending order", () => {
-    sortTable("id", true);
+    sortTable(mockData, "id", true);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-id")).toBe("25");
     expect(rows[1].getAttribute("data-id")).toBe("26");
@@ -53,7 +55,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'id' in descending order", () => {
-    sortTable("id", false);
+    sortTable(mockData, "id", false);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-id")).toBe("27");
     expect(rows[1].getAttribute("data-id")).toBe("26");
@@ -61,7 +63,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'year' in ascending order", () => {
-    sortTable("year", true);
+    sortTable(mockData, "year", true);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(parseInt(rows[0].getAttribute("data-year"))).toBe(1972);
     expect(parseInt(rows[1].getAttribute("data-year"))).toBe(1974);
@@ -69,7 +71,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'year' in descending order", () => {
-    sortTable("year", false);
+    sortTable(mockData, "year", false);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(parseInt(rows[0].getAttribute("data-year"))).toBe(1994);
     expect(parseInt(rows[1].getAttribute("data-year"))).toBe(1974);
@@ -77,7 +79,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'imdb' in ascending order", () => {
-    sortTable("imdb", true);
+    sortTable(mockData, "imdb", true);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-imdb")).toBe("9.00");
     expect(rows[1].getAttribute("data-imdb")).toBe("9.20");
@@ -85,7 +87,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'imdb' in descending order", () => {
-    sortTable("imdb", false);
+    sortTable(mockData, "imdb", false);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-imdb")).toBe("9.30");
     expect(rows[1].getAttribute("data-imdb")).toBe("9.20");
@@ -93,7 +95,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'title' in ascending order", () => {
-    sortTable("title", true);
+    sortTable(mockData, "title", true);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-title")).toBe("Крёстный отец");
     expect(rows[1].getAttribute("data-title")).toBe("Крёстный отец 2");
@@ -101,7 +103,7 @@ describe("sortTable", () => {
   });
 
   test("Should sort the table by 'title' in descending order", () => {
-    sortTable("title", false);
+    sortTable(mockData, "title", false);
     const rows = Array.from(tableBody.querySelectorAll("tr"));
     expect(rows[0].getAttribute("data-title")).toBe("Побег из Шоушенка");
     expect(rows[1].getAttribute("data-title")).toBe("Крёстный отец 2");
